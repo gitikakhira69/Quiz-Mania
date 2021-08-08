@@ -2,9 +2,9 @@ import { StatusBar } from 'expo-status-bar';
 import React, {useEffect} from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import LottieView from 'lottie-react-native';
-import BasicButton from './Src/BasicComponents/BaiscBtn';
+import BasicButton from './BaiscBtn';
 
-export default class App extends React.Component{
+export default class Landing extends React.Component{
   handleLoginBtnClick=()=>{
       console.log("Login Click")
       this.props.navigation.navigate('Login') 
@@ -17,15 +17,13 @@ export default class App extends React.Component{
     <View style={styles.container}>
       <View>
       {/* <LottieView
-          ref={animation => {
-            animation = animation;
-          }}
+          autoPlay
           style={{
             width: 400,
             height: 400,
             backgroundColor: '#eee',
           }}
-          source={require('./assets/Logo.json')}
+          source={require('../../assets/Logo.json')}
           // OR find more Lottie files @ https://lottiefiles.com/featured
           // Just click the one you like, place that file in the 'assets' folder to the left, and replace the above 'require' statement
         /> */}

@@ -1,17 +1,9 @@
 import React from 'react';
-import { StyleSheet,
-         Text,
-         TouchableOpacity } 
-        from 'react-native';
-import { createStackNavigator } from '@react-navigation/stack';
-import Login from './login';
-import SignUp from './signup';
-import Landing from './Src/BasicComponents/Landing';
-import Login from './Src/Screens/Login';
-import SignUp from './Src/Screens/SignUp';
+import Landing from '../BasicComponents/Landing';
+import Login from '../Screens/Login';
+import SignUp from '../Screens/SignUp';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import LoginSuccess from './loginsuccess';
-import Media from './MediaTwo';
+import Dashboard from '../Screens/Dashboard';
 
 
 
@@ -20,9 +12,10 @@ const Drawer = createDrawerNavigator();
 export default function Draw(){
     return(
       <Drawer.Navigator>
-        <Drawer.Screen name="Landing" component={Landing} />
-        <Drawer.Screen name="Login" component={Login} />
+        <Drawer.Screen name="Landing" component={Landing} options={{headerShown:false}}/>
+        <Drawer.Screen name="Login" component={Login} options={{headerShown:false}}/>
         <Drawer.Screen name="SignUp" component={SignUp} />
+        <Drawer.Screen name="Dashboard" component={Dashboard} />
         
       </Drawer.Navigator>
     );

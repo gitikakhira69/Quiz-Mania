@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text,
      TouchableOpacity, View } from 'react-native';
 
-export default function LoginSignUpBtn({
+export default function SignUpBtn({
     customStyle,
     text,
     btnText,
