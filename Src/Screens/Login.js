@@ -34,7 +34,7 @@ export default function Login({navigation}) {
             // Signed in
             var user = userCredential.user;
             console.log(user)
-            global.user = user.email;
+            global.user = email;
             console.log("login clicked", email, password);
             navigation.navigate("Dashboard")
             // ...
