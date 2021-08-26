@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, ScrollView,Dimensions } from 'react-native';
 import BasicButton from '../BasicComponents/BaiscBtn';
 import * as ImagePicker from 'expo-image-picker';
 import { PieChart } from 'react-native-chart-kit';
+
 
 export default function Profile() {
     const [image, setImage] = useState("http://2.bp.blogspot.com/-QWj2Wq45014/TzNOfQezNqI/AAAAAAAAAIY/Lvy0m7ZtWRM/s1600/12.jpg");

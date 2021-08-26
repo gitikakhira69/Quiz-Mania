@@ -3,7 +3,8 @@ import { StyleSheet, Text, View, TextInput, ScrollView, Button,TouchableOpacity,
 import SnackBar from '../BasicComponents/SnackBar';
 import BasicButton from '../BasicComponents/BaiscBtn';
 import SignUpBtn from '../BasicComponents/SignUpBtn';
-import firebase from '../Firebase/FirebaseDatabase';
+import app from '../Firebase/FirebaseDatabase';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Login({navigation}) {
     const [snackbarvisible,setSnackbarvisible] = useState(false);
@@ -27,16 +28,17 @@ export default function Login({navigation}) {
         setSnackbarvisible(false);
     }
      //function to handle when login btn is clicked on
-     function handleLoginBtnClick() {
+     async function handleLoginBtnClick() {
        
-        firebase.auth().signInWithEmailAndPassword(email, password)
-        .then((userCredential) => {
+        app.auth().signInWithEmailAndPassword(email, password)
+        .then(async(userCredential) => {
             // Signed in
             var user = userCredential.user;
             console.log(user)
-            global.user = email;
+            await AsyncStorage.setItem("useremail",email)
+            await AsyncStorage.setItem("userId",userCredential.user.uid)
             console.log("login clicked", email, password);
-            navigation.navigate("Dashboard")
+            navigation.navigate("Draw")
             // ...
         })
         .catch((error) => {
