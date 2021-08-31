@@ -3,9 +3,10 @@ import { StyleSheet, Text, View, TextInput, ScrollView, Image, Platform } from '
 import { Picker } from '@react-native-picker/picker';
 import * as ImagePicker from 'expo-image-picker';
 import BasicButton from '../BasicComponents/BaiscBtn';
+import app from '../Firebase/FirebaseConfig';
 
 export default function CreateQuiz({navigation}) {
-    const [availableQuizTypes, setAvailableQuizTypes] = useState(["Maths Quiz", "Science Quiz", "History Quiz", "Social Science", "Hindi Quiz", "English Quiz", "Sports Quiz", "Tech Quiz", "Arts Quiz", "General Quiz"]); //will be fetched from db
+    const [availableQuizTypes, setAvailableQuizTypes] = useState([]); //will be fetched from db
     const [image, setImage] = useState(null);
     const [quizName, setQuizName] = useState("");
     const [quizDesc, setQuizDesc] = useState("");
@@ -22,8 +23,19 @@ export default function CreateQuiz({navigation}) {
                 }
             }
         })();
+        fetchQuziTypes()
     }, []);
-
+     //Detch Quiz Types From Database
+     function fetchQuziTypes(){
+         const fetch = app.database().ref("quizTypes/")
+         fetch.on('value',(res)=>{
+             const quizTypes = res.val()
+             if(quizTypes){
+                 setAvailableQuizTypes(quizTypes)
+             }
+         })
+     }
+     
     //function to handle when Pick Image btn is clicked on
     async function handlePickImgBtnClick() {
         let result = await ImagePicker.launchImageLibraryAsync({
