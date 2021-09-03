@@ -3,6 +3,7 @@ import MyQuiz from '../Screens/MyQuiz';
 import React from 'react';
 import AddNewQuiz from '../Screens/AddNewQuiz';
 import CreateQuiz from '../Screens/CreateQuiz';
+import QuizDetails from '../Screens/QuizDetails';
 
 const Stack = createStackNavigator();
 
@@ -12,6 +13,7 @@ export default function StackNavigation() {
         <Stack.Screen name="MyQuiz" component={MyQuiz} />
         <Stack.Screen name="AddNewQuiz" component={AddNewQuiz}/>
         <Stack.Screen name="CreateQuiz" component={CreateQuiz}/>
+        <Stack.Screen name="QuizDetails" component={QuizDetails}/>
       </Stack.Navigator>
     );
   }

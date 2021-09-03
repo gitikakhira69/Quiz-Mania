@@ -17,7 +17,7 @@ export default function Login({navigation}) {
     const [passwordVisibility,setPasswordVisibility] = useState(false);
 
     function toggle(){
-        setPasswordVisibility(!passwordVisibility)
+        setPasswordVisibility(passwordVisibility)
     }
 
     function displaySnackBar(type,text){

@@ -4,6 +4,7 @@ import { Picker } from '@react-native-picker/picker';
 import * as ImagePicker from 'expo-image-picker';
 import BasicButton from '../BasicComponents/BaiscBtn';
 import app from '../Firebase/FirebaseConfig';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function CreateQuiz({navigation}) {
     const [availableQuizTypes, setAvailableQuizTypes] = useState([]); //will be fetched from db
@@ -25,6 +26,60 @@ export default function CreateQuiz({navigation}) {
         })();
         fetchQuziTypes()
     }, []);
+    async function uploadImage(createdByUser,image){
+        const timeStamp = Math.floor(Date.now() / 1000);
+        const imageName = timeStamp + ".jpg";
+    
+        const response = await fetch(uri);
+        const blob = await response.blob();
+    
+        //putting image in firebase
+        const storageRef = storage.ref().child( createdByUser+"/" + imageName);
+        const resp = storageRef.put(blob);
+        resp.on(
+            firebase.storage.TaskEvent.STATE_CHANGED,
+            snapshot => {
+                const percent = ((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+                console.log("percent", percent);
+                setPer(percent)
+                
+            },
+            error => {
+                console.log("image upload error: ", error.message);
+                
+            },
+            () => {
+                console.log("getDownloadURL")
+                storageRef.getDownloadURL()
+                    .then((downloadUrl) => {     
+                        setImage(downloadUrl);
+                    })
+            }
+        );
+        return resp;
+    }
+    function insertQuizFirebase(createdByUser,image){
+        const timestamp = Math.floor(Date.now())
+        const insertKey = createdByUser + "_" + timestamp;
+
+        const dbref = firebase.app().database().ref("quizes/")
+        dbref.child(insertKey)
+        .set({
+            createdByUser,
+            quizImageUri:image,quizName,quizType,quizDesc
+        },
+        (err)=>{
+         if(err){
+             console.log(err)
+         }       
+         else{
+             navigation.navigate("QuizDetails",{
+                 insertKey,quizImageUri:image,quizName,quizType,quizDesc,
+             })
+         }
+        }
+        )
+    }
      //Detch Quiz Types From Database
      function fetchQuziTypes(){
          const fetch = app.database().ref("quizTypes/")
@@ -49,9 +104,19 @@ export default function CreateQuiz({navigation}) {
     }
 
     //function to handle when any quiz item is clicked on
-    function hanldeCreateBtnClick() {
+   async function hanldeCreateBtnClick() {
         console.log("create btn clicked");
-        navigation.navigate("AddNewQuiz")
+        const createdByUser = await AsyncStorage.getItem("userId")
+        if (createdByUser){
+            if (image){
+                await uploadImage(createdByUser,image)
+                .then(()=>{
+                    console.log("Image Uploaded")
+                })
+                insertQuizFirebase(createdByUser,image)
+            }
+        }
+              
     }
 
     //component rendering
