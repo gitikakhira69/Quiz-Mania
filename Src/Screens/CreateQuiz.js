@@ -5,6 +5,7 @@ import * as ImagePicker from 'expo-image-picker';
 import BasicButton from '../BasicComponents/BaiscBtn';
 import app from '../Firebase/FirebaseConfig';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import firebase from '../Firebase/FirebaseConfig';
 
 export default function CreateQuiz({navigation}) {
     const [availableQuizTypes, setAvailableQuizTypes] = useState([]); //will be fetched from db
@@ -26,22 +27,21 @@ export default function CreateQuiz({navigation}) {
         })();
         fetchQuziTypes()
     }, []);
-    async function uploadImage(createdByUser,image){
+    async function uploadImage(createdByUser,uri){
         const timeStamp = Math.floor(Date.now() / 1000);
         const imageName = timeStamp + ".jpg";
     
+        //putting image in firebase
+        const storageRef = firebase.storage().ref().child( createdByUser+ "/" + imageName);
         const response = await fetch(uri);
         const blob = await response.blob();
-    
-        //putting image in firebase
-        const storageRef = storage.ref().child( createdByUser+"/" + imageName);
         const resp = storageRef.put(blob);
         resp.on(
             firebase.storage.TaskEvent.STATE_CHANGED,
             snapshot => {
                 const percent = ((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
                 console.log("percent", percent);
-                setPer(percent)
+                
                 
             },
             error => {

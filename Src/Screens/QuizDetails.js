@@ -36,7 +36,7 @@ export default function QuizDetails({route,navigation}
     }
 
     //function to handle when any quiz item is clicked on
-    function hanldeAddQstnBtnClick() {
+    function handleAddQstnBtnClick() {
         navigation.navigate('Add Question', {
             quizId: insertKey
         });
