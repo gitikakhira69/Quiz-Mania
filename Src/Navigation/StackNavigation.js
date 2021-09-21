@@ -10,10 +10,10 @@ const Stack = createStackNavigator();
 export default function StackNavigation() {
     return (
       <Stack.Navigator>
-        <Stack.Screen name="MyQuiz" component={MyQuiz} />
-        <Stack.Screen name="AddNewQuiz" component={AddNewQuiz}/>
-        <Stack.Screen name="CreateQuiz" component={CreateQuiz}/>
-        <Stack.Screen name="QuizDetails" component={QuizDetails}/>
+        <Stack.Screen name="MyQuiz" component={MyQuiz} options={{headerShown:false}}/>
+        <Stack.Screen name="AddNewQuiz" component={AddNewQuiz} options={{headerShown:false}}/>
+        <Stack.Screen name="CreateQuiz" component={CreateQuiz} options={{headerShown:false}}/>
+        <Stack.Screen name="QuizDetails" component={QuizDetails} options={{headerShown:false}}/>
       </Stack.Navigator>
     );
   }

@@ -74,7 +74,7 @@ export default function CreateQuiz({navigation}) {
          }       
          else{
              navigation.navigate("QuizDetails",{
-                 insertKey,quizImageUri:image,quizName,quizType,quizDesc,
+                 insertKey,quizImageUri:image,quizName,quizType,quizDesc
              })
          }
         }

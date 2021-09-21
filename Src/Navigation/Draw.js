@@ -8,6 +8,7 @@ import DrawCustomiztion from '../Navigation/Customization/DrawCustomiztion';
 import BottomNavigator from './BottomNavigator';
 import { Appbar, Provider as PaperProvider } from 'react-native-paper';
 import { DrawerActions } from '@react-navigation/routers';
+import Social from '../Screens/Social';
 
 const Drawer = createDrawerNavigator();
 
@@ -23,7 +24,8 @@ export default function Draw({navigation}){
          </Appbar.Header>
         </Appbar.Header>
         <Drawer.Navigator drawerContent={(props)=><DrawCustomiztion {...props}/>}>
-          <Drawer.Screen name="BottomNavigator" component={BottomNavigator} options={{headerShown:false}} />        
+          <Drawer.Screen name="BottomNavigator" component={BottomNavigator} options={{headerShown:false}} /> 
+          <Drawer.Screen name="Social" component={Social} options={{headerShown:false}} />         
         </Drawer.Navigator>
       </PaperProvider>
       

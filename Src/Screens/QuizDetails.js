@@ -2,9 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, ScrollView, Image, ActivityIndicator } from 'react-native';
 import SnackBar from '../BasicComponents/SnackBar';
 import BasicButton from '../BasicComponents/BaiscBtn';
+import firebase from '../Firebase/FirebaseConfig';
+import { useIsFocused } from "@react-navigation/native";
 
 export default function QuizDetails({route,navigation}
    ) {
+    const isFocused = useIsFocused();
     const {insertKey,quizImageUri,quizName,quizType,quizDesc} = route.params;
     const [questions, setQuestions] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -16,11 +19,32 @@ export default function QuizDetails({route,navigation}
     useEffect(() => {
         //fetching available quiz types from database
         fetchQuizQuestions();
-    }, []);
+    }, [isFocused]);
 
     //function to fetch questions of the quiz from the database.
     function fetchQuizQuestions() {
-        
+        if(insertKey){
+            const quizdbref = firebase.app().database().ref("quizes/"+insertKey);
+            quizdbref.on('value',(snap)=>{
+               var quest = snap.val();
+               var quizList = []
+               if(quest){
+                   for(var key in quest){
+                       if(key == "questions"){
+                           var data = quest[key]
+                           for(var i in data){
+                               var quiz_data = data[i].question;
+                               quizList.push(quiz_data)
+                           }
+                       }
+                   }
+               }
+               if(quizList.length != 0){
+                   setQuestions(quizList)
+                   setIsLoading(false)
+               }
+            })
+        }
     }
 
     //function to display snackbar
@@ -37,7 +61,7 @@ export default function QuizDetails({route,navigation}
 
     //function to handle when any quiz item is clicked on
     function handleAddQstnBtnClick() {
-        navigation.navigate('Add Question', {
+        navigation.navigate('AddNewQuiz', {
             quizId: insertKey
         });
     }
@@ -63,7 +87,10 @@ export default function QuizDetails({route,navigation}
                             questions.map((item, idx) => {
                                 return (
                                    //display the questions in View. 
-                                   <View> </View>
+                                   <View style={{display:"flex",flexDirection:'row'}}>
+                                       <View style={{paddingRight:5,}}>  <Text>{idx+1}) </Text></View> 
+                                       <View>  <Text>{item}</Text></View> 
+                                   </View>
                                 )
                             })
                     }

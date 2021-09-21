@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, ScrollView } from 'react-native';
 import BasicButton from '../BasicComponents/BaiscBtn';
+import firebase from '../Firebase/FirebaseConfig';
 
-export default function AddNewQuiz() {
+export default function AddNewQuiz({navigation,route}) {
+    const {quizId} = route.params;
     const [qstn, setQstn] = useState("");
     const [correctOption, setCorrectOption] = useState("");
     const [option1, setOption1] = useState("");
@@ -12,11 +14,56 @@ export default function AddNewQuiz() {
     //function to handle when add btn clicked on
     function hanldeAddBtnClick() {
         console.log("add btn clicked");
+        if (quizId){
+            const timeStamp = Math.floor(Date.now())
+            const qstId = quizId + "_qst_" + timeStamp
+            const qstdbref = firebase.app().database().ref('quizes/')
+            qstdbref.child(quizId + "/questions/" + qstId)
+            .set({
+                question : qstn,
+                options : [
+                    {
+                        optionId : qstId + "_option0",
+                        option : correctOption,
+                        isAns : true,
+                    },
+                    {
+                        optionId : qstId + "_option1",
+                        option : option1,
+                        isAns : false,
+                    },  
+                    {
+                        optionId : qstId + "_option2",
+                        option : option2,
+                        isAns : false,
+                    },             
+                    {
+                        optionId : qstId + "_option3",
+                        option : option3,
+                        isAns : false,
+                    }, 
+                ] 
+            },
+            (error)=>{
+                if(error){
+                    console.log(error)
+                }
+                else{
+                    navigation.goBack()
+                }
+            }
+            )
+        }
+        else{
+            console.log("Go back")
+            navigation.goBack()
+        }
     }
 
     //function to handle when cancel btn is pressed
     function hanldeCancelBtnClick() {
         console.log("cancel btn clicked");
+        navigation.goBack();
     }
 
     //component rendering

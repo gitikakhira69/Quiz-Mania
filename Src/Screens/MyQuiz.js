@@ -8,7 +8,7 @@ export default function MyQuiz({navigation}) {
     const [quiz, setQuiz] = useState([]); 
      useEffect(()=>{
          fetchUserQuiz();
-     });
+     },[]);
    async function fetchUserQuiz(){
         const loggedUserId = await AsyncStorage.getItem("userId")
         if(loggedUserId){
