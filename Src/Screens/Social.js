@@ -23,99 +23,6 @@ export default function Social({ navigation }) {
 
     //function to fetch quizes of all users
     async function fetchUsersQuizes() {
-        const loggedUserId = await AsyncStorage.getItem('useruid');
-        if (loggedUserId) {
-            const quizesDbRef = firebase.app().database().ref('quizes/');
-            quizesDbRef
-                .once('value')
-                .then(resp => {
-                    const quizes = resp.val();
-                    if (quizes) {
-                        var usersQuizzes = {};
-                        for (const quizId in quizes) {
-                            const quiz = quizes[quizId];
-                         
-                            const createdByUserId = quiz.createdByUserId;
-
-                            if (createdByUserId !== loggedUserId) {
-                                if (!(createdByUserId in usersQuizzes)) {
-                                    usersQuizzes[createdByUserId] = [];
-                                }
-                                usersQuizzes[createdByUserId].push(quiz);
-                            }
-                        }
-                        setUsersQuizes(usersQuizzes);
-                    }
-                })
-                .catch(error => {
-                    displaySnackBar("error", "Failed to get quizes");
-                });
-        } else {
-            displaySnackBar("error", "User is not logged in");
-        }
-    }async function fetchUsersQuizes() {
-        const loggedUserId = await AsyncStorage.getItem('useruid');
-        if (loggedUserId) {
-            const quizesDbRef = firebase.app().database().ref('quizes/');
-            quizesDbRef
-                .once('value')
-                .then(resp => {
-                    const quizes = resp.val();
-                    if (quizes) {
-                        var usersQuizzes = {};
-                        for (const quizId in quizes) {
-                            const quiz = quizes[quizId];
-                            quiz["userId"]=quiz.createdByUser;
-                            const createdByUserId = quiz.createdByUserId;
-
-                            if (createdByUserId !== loggedUserId) {
-                                if (!(createdByUserId in usersQuizzes)) {
-                                    usersQuizzes[createdByUserId] = [];
-                                }
-                                usersQuizzes[createdByUserId].push(quiz);
-                            }
-                        }
-                        setUsersQuizes(usersQuizzes);
-                    }
-                })
-                .catch(error => {
-                    displaySnackBar("error", "Failed to get quizes");
-                });
-        } else {
-            displaySnackBar("error", "User is not logged in");
-        }
-    }async function fetchUsersQuizes() {
-        const loggedUserId = await AsyncStorage.getItem('useruid');
-        if (loggedUserId) {
-            const quizesDbRef = firebase.app().database().ref('quizes/');
-            quizesDbRef
-                .once('value')
-                .then(resp => {
-                    const quizes = resp.val();
-                    if (quizes) {
-                        var usersQuizzes = {};
-                        for (const quizId in quizes) {
-                            const quiz = quizes[quizId];
-                         
-                            const createdByUserId = quiz.createdByUserId;
-
-                            if (createdByUserId !== loggedUserId) {
-                                if (!(createdByUserId in usersQuizzes)) {
-                                    usersQuizzes[createdByUserId] = [];
-                                }
-                                usersQuizzes[createdByUserId].push(quiz);
-                            }
-                        }
-                        setUsersQuizes(usersQuizzes);
-                    }
-                })
-                .catch(error => {
-                    displaySnackBar("error", "Failed to get quizes");
-                });
-        } else {
-            displaySnackBar("error", "User is not logged in");
-        }
-    }async function fetchUsersQuizes() {
         const loggedUserId = await AsyncStorage.getItem('userId');
         if (loggedUserId) {
             const quizesDbRef = firebase.app().database().ref('quizes/');
@@ -161,6 +68,7 @@ export default function Social({ navigation }) {
                         var usersArray = [];
                         for (const userId in usersDB) {
                                 const user = usersDB[userId];
+                                user["userId"]=userId;
                                 usersArray.push(user);
                         }
                         setUsers(usersArray);

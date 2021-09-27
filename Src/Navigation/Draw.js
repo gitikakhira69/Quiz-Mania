@@ -17,7 +17,7 @@ export default function Draw({navigation}){
       <PaperProvider>
         <Appbar.Header>
           <Appbar.Action icon="menu"
-          onPress={()=>{navigation.dispatch(DrawerActions.openDrawer())}}
+          onPress={()=>{navigation.dispatch(DrawerActions.toggleDrawer())}}
           ></Appbar.Action>
          <Appbar.Header>
            <Appbar.Content title="Quiz" subtitle={'Quiz Mania'} />
